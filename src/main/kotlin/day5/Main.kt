@@ -3,6 +3,7 @@ package day5
 import common.Instruction
 import common.Program
 import common.Utils
+import common.Utils.getInputList
 
 object Main {
 
@@ -12,9 +13,7 @@ object Main {
     fun main(args: Array<String>) {
         val lines = Utils.getFileFromResource(INPUT).readLines()
 
-        val numbers = lines
-                .reduce { acc, s -> acc + s }
-                .split(",")
+        val numbers = getInputList(lines)
                 .map(String::toInt)
                 .toMutableList()
 
@@ -23,6 +22,4 @@ object Main {
         println("The for input 1 the result was was ${program.execute(1)}")
         println("The for input 5 the result was was ${program.execute(5)}")
     }
-
-
 }

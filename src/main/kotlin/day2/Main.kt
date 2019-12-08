@@ -1,6 +1,7 @@
 package day2
 
 import common.Utils
+import common.Utils.getInputList
 
 object Main {
 
@@ -12,9 +13,7 @@ object Main {
     fun main(args: Array<String>) {
         val lines = Utils.getFileFromResource(INPUT).readLines()
 
-        val numbers = lines
-                .reduce { acc, s -> acc+s }
-                .split(",")
+        val numbers = getInputList(lines)
                 .map(String::toInt)
                 .toMutableList()
 

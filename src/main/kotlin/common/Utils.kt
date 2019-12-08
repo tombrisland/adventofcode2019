@@ -13,4 +13,10 @@ object Utils {
         }
         return IntProgression.fromClosedRange(from, to, -1)
     }
+
+    fun getInputList(lines: List<String>): List<String> {
+        return lines
+                .reduce { acc, s -> acc + s }
+                .split(",")
+    }
 }

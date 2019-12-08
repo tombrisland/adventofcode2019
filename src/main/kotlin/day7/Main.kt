@@ -2,6 +2,7 @@ package day7
 
 import common.Program
 import common.Utils
+import common.Utils.getInputList
 import java.util.*
 
 object Main {
@@ -12,9 +13,7 @@ object Main {
     fun main(args: Array<String>) {
         val lines = Utils.getFileFromResource(INPUT).readLines()
 
-        val instructions = lines
-                .reduce { acc, s -> acc + s }
-                .split(",")
+        val instructions = getInputList(lines)
                 .map(String::toInt)
 
         partOne(instructions)
