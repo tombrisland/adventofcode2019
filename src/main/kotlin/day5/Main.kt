@@ -1,7 +1,6 @@
 package day5
 
-import common.Instruction
-import common.Program
+import common.intcode.Program
 import common.Utils
 import common.Utils.getInputList
 
@@ -14,7 +13,7 @@ object Main {
         val lines = Utils.getFileFromResource(INPUT).readLines()
 
         val numbers = getInputList(lines)
-                .map(String::toInt)
+                .map(String::toLong)
                 .toMutableList()
 
         val program = Program(numbers)

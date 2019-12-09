@@ -1,6 +1,6 @@
 package day7
 
-import common.Program
+import common.intcode.Program
 import common.Utils
 import common.Utils.getInputList
 import java.util.*
@@ -14,20 +14,20 @@ object Main {
         val lines = Utils.getFileFromResource(INPUT).readLines()
 
         val instructions = getInputList(lines)
-                .map(String::toInt)
+                .map(String::toLong)
 
         partOne(instructions)
-        partTwo(instructions)
+//        partTwo(instructions)
     }
 
-    private fun partTwo(instructions: List<Int>) {
+    private fun partTwo(instructions: List<Long>) {
         val combinations = generateCombinations(listOf(5, 6, 7, 8, 9))
 
         val outputs = combinations.map { phases ->
 
             val amplifiers = phases.map { Program(instructions, it) }
 
-            var input = 0
+            var input = 0L
 
             while (amplifiers.all { !it.isExited }) {
                 input = amplifiers.fold(input) { acc, amp -> amp.execute(acc) }
@@ -39,13 +39,13 @@ object Main {
         println("For part 2 The highest output was ${outputs.max()}")
     }
 
-    private fun partOne(instructions: List<Int>) {
+    private fun partOne(instructions: List<Long>) {
         val combinations = generateCombinations(listOf(0, 1, 2, 3, 4))
 
         val outputs = combinations.map { phases ->
             val amplifiers = phases.map { Program(instructions, it) }
 
-            amplifiers.fold(0) { acc, amp -> amp.execute(acc) }
+            amplifiers.fold(0L) { acc, amp -> amp.execute(acc) }
         }
 
         println("For part 1 the highest output was ${outputs.max()}")
