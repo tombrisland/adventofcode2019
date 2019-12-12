@@ -12,22 +12,20 @@ class Program(instructions: List<Long>) {
     private val inputs = mutableListOf<Long>()
 
     var isExited = false
-    var instructionPointer = 0L
+    private var instructionPointer = 0L
     private var relativeBase = 0L
 
     constructor(program: List<Long>, phase: Int) : this(program) {
         inputs.add(phase.toLong())
     }
 
-    fun execute(input: Long): Long {
-
-        inputs.add(input)
+    fun execute() : Long {
         var output: Long?
 
         do {
             val instr = nextInstruction()
 
-            println("$instr $relativeBase")
+//            println("$instr $relativeBase")
 
             if (instr.outputIndex != null) {
                 expandMemory(instr.outputIndex!!.toLong())
@@ -38,12 +36,17 @@ class Program(instructions: List<Long>) {
             output = handleInstruction(instr)
 
             if (isExited || output != null) {
-                return output ?: input
+                return output ?: inputs.last()
             }
 
         } while (instructionPointer < memory.size)
 
         throw RuntimeException("Program didn't produce an output")
+    }
+
+    fun execute(input: Long): Long {
+        inputs.add(input)
+        return execute()
     }
 
     private fun handleInstruction(inst: Instruction) : Long? {
