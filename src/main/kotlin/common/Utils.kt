@@ -1,5 +1,6 @@
 package common
 
+import day15.Tile
 import java.io.File
 
 object Utils {
@@ -18,5 +19,14 @@ object Utils {
         return lines
                 .reduce { acc, s -> acc + s }
                 .split(",")
+    }
+
+    fun <T> renderGrid(grid: List<Pair<Position, T>>) {
+        grid
+                .groupBy { it.first.y }
+                .toSortedMap()
+                .forEach {
+
+                }
     }
 }

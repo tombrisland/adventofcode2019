@@ -8,8 +8,8 @@ fun Boolean.toLong() = toInt().toLong()
 
 class Program(instructions: List<Long>) {
 
-    private val memory = instructions.toMutableList()
-    private val inputs = mutableListOf<Long>()
+    val memory = instructions.toMutableList()
+    val inputs = mutableListOf<Long>()
 
     var isExited = false
     private var instructionPointer = 0L
@@ -19,7 +19,7 @@ class Program(instructions: List<Long>) {
         inputs.add(phase.toLong())
     }
 
-    fun execute() : Long {
+    fun execute(): Long? {
         var output: Long?
 
         do {
@@ -36,7 +36,11 @@ class Program(instructions: List<Long>) {
             output = handleInstruction(instr)
 
             if (isExited || output != null) {
-                return output ?: inputs.last()
+                return output ?: return if (inputs.size > 0) {
+                    inputs.last()
+                } else {
+                    null
+                }
             }
 
         } while (instructionPointer < memory.size)
@@ -44,13 +48,13 @@ class Program(instructions: List<Long>) {
         throw RuntimeException("Program didn't produce an output")
     }
 
-    fun execute(input: Long): Long {
+    fun execute(input: Long): Long? {
         inputs.add(input)
         return execute()
     }
 
-    private fun handleInstruction(inst: Instruction) : Long? {
-        var output : Long? = null
+    private fun handleInstruction(inst: Instruction): Long? {
+        var output: Long? = null
 
         when (inst.intCode.value) {
             ADD -> {
@@ -88,11 +92,11 @@ class Program(instructions: List<Long>) {
         return output
     }
 
-    private fun removeFirst(list : MutableList<Long>) : Long {
+    private fun removeFirst(list: MutableList<Long>): Long {
         return list.removeAt(0)
     }
 
-    private fun nextInstruction() : Instruction {
+    private fun nextInstruction(): Instruction {
         return try {
             val remaining = memory.size - (instructionPointer + 3)
 
@@ -103,13 +107,13 @@ class Program(instructions: List<Long>) {
             }
 
             Instruction(memory, relativeBase, input)
-        } catch (e : InvalidMemoryException) {
+        } catch (e: InvalidMemoryException) {
             expandMemory(e.index)
             nextInstruction()
         }
     }
 
-    private fun expandMemory(index : Long) {
+    private fun expandMemory(index: Long) {
         while (memory.size <= index) {
             memory.add(0)
         }

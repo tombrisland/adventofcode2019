@@ -51,9 +51,9 @@ object Main {
 
             if (program.isExited) break
 
-            panels.add(Pair(pos, Colour.values()[paint.toInt()]))
+            panels.add(Pair(pos, Colour.values()[paint!!.toInt()]))
 
-            orientation = orientation.turn(turn.toInt())
+            orientation = orientation.turn(turn!!.toInt())
 
             pos = when (orientation) {
                 NORTH -> Position(pos.x, pos.y + 1)
@@ -79,6 +79,19 @@ object Main {
             } else {
                 values()[normaliseIndex(values().indexOf(this) + 1)]
             }
+        }
+
+        fun turnRight() : Orientation {
+            return values()[normaliseIndex(values().indexOf(this) + 1)]
+        }
+
+        fun turnLeft() : Orientation {
+            return values()[normaliseIndex(values().indexOf(this) - 1)]
+
+        }
+
+        fun turn180() : Orientation {
+            return turnRight().turnRight()
         }
 
         private fun normaliseIndex(i: Int): Int {
